@@ -73,6 +73,10 @@ public class OgcWxSParams extends AbstractParams {
     public boolean useLayerMd;
     public String datasetCategory;
     public String outputSchema;
+    //--- COGS TODO use already existing vars.- added to support harvest to template for NIWA 1-4-2013
+    public String templateService;
+    public String templateLayer;
+    //--- COGS - end mod
     public OgcWxSParams(DataManager dm) {
         super(dm);
     }
@@ -93,6 +97,10 @@ public class OgcWxSParams extends AbstractParams {
         useLayerMd = Util.getParam(opt, "useLayerMd", false);
         datasetCategory = Util.getParam(opt, "datasetCategory", "");
         outputSchema = Util.getParam(opt, "outputSchema", "");
+	//--- COGS TODO use already existing vars.- added to support harvest to template for NIWA 1-4-2013
+	templateService	= Util.getParam(opt, "templateService",  "");
+	templateLayer	= Util.getParam(opt, "templateLayer",  "");
+	//--- COGS - end mod
     }
 
     public void update(Element node) throws BadInputEx {
@@ -112,6 +120,10 @@ public class OgcWxSParams extends AbstractParams {
         useLayerMd = Util.getParam(opt, "useLayerMd", useLayerMd);
         datasetCategory = Util.getParam(opt, "datasetCategory", datasetCategory);
         outputSchema = Util.getParam(opt, "outputSchema", outputSchema);
+	//--- COGS TODO use already existing vars.- added to support harvest to template for NIWA 1-4-2013
+	templateService = Util.getParam(opt, "templateService", templateService);
+	templateLayer	= Util.getParam(opt, "templateLayer", templateLayer);
+	//--- COGS - end mod
     }
 
     public OgcWxSParams copy() {
@@ -128,6 +140,10 @@ public class OgcWxSParams extends AbstractParams {
         copy.useLayerMd = useLayerMd;
         copy.datasetCategory = datasetCategory;
         copy.outputSchema = outputSchema;
+	//--- COGS - TODO use already existing vars. - added to support harvest to template for NIWA 1-4-2013
+	copy.templateService	= templateService;
+	copy.templateLayer	= templateLayer;
+	//--- COGS - end mod
         return copy;
     }
 }
