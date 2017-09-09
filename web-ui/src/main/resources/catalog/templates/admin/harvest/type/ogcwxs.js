@@ -34,7 +34,9 @@ var gnHarvesterogcwxs = {
                 "useLayer" : "",
                 "useLayerMd" : "",
                 "datasetCategory" : "",
-                "outputSchema" : "iso19139"
+                "outputSchema" : "iso19139",
+		"templateService" : "",
+		"templateLayer" : ""
             },
             "privileges" : [ {
                 "@id" : "1",
@@ -78,6 +80,8 @@ var gnHarvesterogcwxs = {
                 + '    <useLayerMd>' + h.options.useLayerMd + '</useLayerMd>'
                 + '    <datasetCategory>' + h.options.datasetCategory + '</datasetCategory>'
                 + '    <outputSchema>' + h.options.outputSchema + '</outputSchema>'
+		+ '    <templateService>' + h.options.templateService + '</templateService>'
+		+ '    <templateLayer>' + h.options.templateLayer + '</templateLayer>'
                 + '  </options>'
                 + '  <content>'
                 + '    <validate>' + h.content.validate + '</validate>'
