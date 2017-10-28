@@ -115,14 +115,16 @@
       <label class="control-label">
         <span data-translate="">templateService</span>
       </label>
-      <input type="text" class="form-control" data-ng-model="harvesterSelected.options.templateService" />
+      <select class="form-control" data-ng-options="t['@id'] as (t.schema + ' > ' + t.title) for t in harvesterTemplates" data-ng-model="harvesterSelected.options.templateService">
+      </select>
     </div>
     <div>
       <label class="control-label">
         <span data-translate="">templateLayer</span>
       </label>
-      <input type="text" class="form-control" data-ng-model="harvesterSelected.options.templateLayer" />
-    </div>s
+      <select class="form-control" data-ng-options="t['@id'] as (t.schema + ' > ' + t.title) for t in harvesterTemplates" data-ng-model="harvesterSelected.options.templateLayer">
+      </select>
+    </div>
   </fieldset>
 
 

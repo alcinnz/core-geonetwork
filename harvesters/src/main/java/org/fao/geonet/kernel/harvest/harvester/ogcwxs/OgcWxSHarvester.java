@@ -138,8 +138,8 @@ public class OgcWxSHarvester extends AbstractHarvester<HarvestResult> {
         settingMan.add("id:" + optionsId, "datasetCategory", params.datasetCategory);
         settingMan.add("id:" + optionsId, "outputSchema", params.outputSchema);
 	//--- COGS TODO use already existing vars.- added to support harvest to template for NIWA 1-4-2013
-	settingMan.add(dbms, "id:"+optionsId, "templateService", params.templateService);
-	settingMan.add(dbms, "id:"+optionsId, "templateLayer", params.templateLayer);
+	settingMan.add("id:"+optionsId, "templateService", params.templateService);
+	settingMan.add("id:"+optionsId, "templateLayer", params.templateLayer);
 	//--- COGS - end mod
     }
 

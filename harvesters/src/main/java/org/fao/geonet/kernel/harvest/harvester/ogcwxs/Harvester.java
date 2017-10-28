@@ -52,6 +52,7 @@ import org.fao.geonet.lib.Lib;
 import org.fao.geonet.repository.MetadataCategoryRepository;
 import org.fao.geonet.repository.MetadataRepository;
 import org.fao.geonet.services.thumbnail.Set;
+
 import org.fao.geonet.util.Sha1Encoder;
 import org.fao.geonet.utils.BinaryFile;
 import org.fao.geonet.utils.GeonetHttpRequestFactory;
@@ -62,6 +63,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.Namespace;
 import org.jdom.filter.ElementFilter;
+import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -69,7 +71,6 @@ import org.springframework.http.client.ClientHttpResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -344,38 +345,6 @@ class Harvester extends BaseAligner implements IHarvester<HarvestResult> {
             result.unknownSchema++;
         }
 
-
-	// COGS -TODO use already existing vars for templates from fragments approach
-	// ---- parameter to pass the uuid of the template to OgcWxSHarvester.java
-	if (!params.templateService.equals("xx")&&!params.templateService.equals("''")) {
-            // COGS - NIWA mod to pass template xml
-            String TSid = dataMan.getMetadataId(dbms,params.templateService);
-            String TSxml = new XMLOutputter().outputString(dataMan.getMetadata(dbms,TSid));
-            //String TSxml = params.templateService.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
-            File temp = File.createTempFile(uuid, ".tmp");
-            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(temp),"UTF-8");
-            out.write(TSxml);
-            out.close();
-
-            param.put("template", String.valueOf(temp.getAbsoluteFile()));
-            //param.put("template", params.templateService);
-            log.info("service xml as string i hope - " + dataMan.getMetadata(dbms,TSid));
-            log.info("File - " + temp.getPath());
-            log.info("Service Schema - " + schema);
-            log.info("Service MD UUID - " + params.uuid);
-            log.info("Service Template xml - " + TSxml)    ;
-            log.info("GeoServer Service Metadata - " + new XMLOutputter().outputString(md));
-
-			
-			String styleSheetTmplt = schemaMan.getSchemaDir(params.outputSchema) +
-							Geonet.Path.CONVERT_STYLESHEETS
-							+ "/OGCWxSGetCapabilitiesto19119/"
-							+ "/mergeTemplate.xsl";
-
-			md = Xml.transform (md, styleSheetTmplt, param);
-       
-	}
-	// COGS - End mod
 
         //--- Create metadata for layers only if user ask for
         if (params.useLayer || params.useLayerMd) {
@@ -740,37 +709,6 @@ class Harvester extends BaseAligner implements IHarvester<HarvestResult> {
                 param.put("topic", params.topic);
 
                 xml = Xml.transform(capa, styleSheet, param);
-
-		// COGS TODO use already existing vars for templates from fragments approach.
-		// ---  Layers likely use a different template than the service.
-		if (!params.templateLayer.equals("xx")&&!params.templateLayer.equals("''")) {
-
-                   // Try to load template layer xml
-                   String TLid = dataMan.getMetadataId(dbms,params.templateLayer);
-                   String TLxml = new XMLOutputter().outputString(dataMan.getMetadata(dbms,TLid));
-
-                   File temp = File.createTempFile(reg.uuid, ".tmp");
-                   OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(temp),"UTF-8");
-                   out.write(TLxml);
-                   out.close();
-
-                   param.put("template", String.valueOf(temp.getAbsoluteFile()));
-
-                   log.info("Layer UUID - " + params.uuid)    ;
-                   log.info("Layer Schema - " + schema);
-                   log.info("Layer Template  xml - " + TLxml)    ;
-                   log.info("GeoServer Layer Metadata - " + new XMLOutputter().outputString(xml));
-
-                    String styleSheetTmplt = schemaMan.getSchemaDir(params.outputSchema) +
-                            Geonet.Path.CONVERT_STYLESHEETS
-                            + "/OGCWxSGetCapabilitiesto19119/"
-                            + "/mergeTemplate.xsl";
-
-                    xml = Xml.transform (xml, styleSheetTmplt, param);
-                    log.info("Merged Layer Metadata - " + new XMLOutputter().outputString(xml));
-                }
-                //End COGS mod
-
                 if (log.isDebugEnabled())
                     log.debug("  - Layer loaded using GetCapabilities document.");
 
