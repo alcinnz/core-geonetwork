@@ -284,6 +284,8 @@
 
         loadHarvester(h['@id']).then(function(data) {
           loadHistory();
+          loadHarvesterTemplates(); // TODO make conditional on ogcwxs, etc.
+          window.alert("Hello!");
 
           // Retrieve records in that harvester
           angular.extend($scope.searchObj.params, {
@@ -598,12 +600,16 @@
 
       // WFS GetFeature harvester
       $scope.harvesterTemplates = null;
+      $scope.loadingHarvesterTemplates = false;
       var loadHarvesterTemplates = function() {
-        $http.get('info?_content_type=json&type=templates')
+        $scope.loadingHarvesterTemplates = true;
+        $http.get('q?_content_type=json&_isTemplate=y')
             .success(function(data) {
+              $scope.loadingHarvesterTemplates = false;
               $scope.harvesterTemplates = data.templates;
             });
       };
+      loadHarvesterTemplates();
 
 
       $scope.harvesterGetFeatureXSLT = null;

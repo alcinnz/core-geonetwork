@@ -2,6 +2,7 @@
 // of Angular module.
 var gnHarvesterogcwxs = {
     createNew : function() {
+	alert("Hello!");
         return {
             "@id" : "",
             "@type" : "ogcwxs",
